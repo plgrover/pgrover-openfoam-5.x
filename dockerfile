@@ -20,12 +20,18 @@ RUN pip install matplotlib
 
 RUN pip install jupyter
 
+# A fix https://github.com/jupyter/jupyter/issues/370
+RUN pip uninstall -y ipykernel
+RUN pip install ipykernel==4.8.0
+
+RUN pip install pandas
+
 RUN git clone https://github.com/plgrover/PatFoamLib.git
 
 RUN git clone https://github.com/plgrover/PressureGradientSolvers-OpenFOAM-5.x.git
 
 RUN git clone https://github.com/plgrover/LRN-WallTreatments-openFOAM-5.x.git
-WORKDIR ~/PressureGradientSolvers-OpenFOAM-5.x# cd applications/solvers/incompressible/pisoFoamGradP
+WORKDIR ~/PressureGradientSolvers-OpenFOAM-5.x/applications/solvers/incompressible/pisoFoamGradP
 CMD ["wmake"]
 
 

@@ -20,11 +20,13 @@ RUN pip install matplotlib
 
 RUN pip install jupyter
 
+RUN pip install pandas
+
 # A fix https://github.com/jupyter/jupyter/issues/370
 RUN pip uninstall -y ipykernel
 RUN pip install ipykernel==4.8.0
 
-RUN pip install pandas
+
 
 RUN git clone https://github.com/plgrover/PatFoamLib.git
 

@@ -2,6 +2,8 @@ FROM openfoam/openfoam5-graphical-apps
 
 USER root
 
+EXPOSE 8888
+
 RUN apt-get update \
   && apt-get install -y python3-pip python3-dev \
   && cd /usr/local/bin \
@@ -27,19 +29,16 @@ RUN pip uninstall -y ipykernel
 RUN pip install ipykernel==4.8.0
 
 
+WORKDIR "/home/openfoam"
 
 RUN git clone https://github.com/plgrover/PatFoamLib.git
-
 RUN git clone https://github.com/plgrover/PressureGradientSolvers-OpenFOAM-5.x.git
-
 RUN git clone https://github.com/plgrover/LRN-WallTreatments-openFOAM-5.x.git
-WORKDIR ~/PressureGradientSolvers-OpenFOAM-5.x/applications/solvers/incompressible/pisoFoamGradP
-CMD ["wmake"]
 
 
-WORKDIR ~/LRN-WallTreatments-openFOAM-5.x/src/TurbulenceModels/turbulenceModels/derivedFvPatchFields/
-CMD ["wmake"]
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+# ENTRYPOINT ["/docker-entrypoint.sh"]
 
-#jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root
+CMD "jupyter notebook --allow-root"
 
 
